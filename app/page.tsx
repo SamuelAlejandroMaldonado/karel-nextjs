@@ -36,18 +36,22 @@ export default function Home() {
 
 
     const move = () => {
-            setRobot(prev => {
-                let { x, y } = prev;     // these may change
-                const { dir } = prev;    // this never changes
+        setRobot(prev => {
+            let { x, y } = prev;
+            const { dir } = prev;
 
-                if (dir === "N") y = Math.max(0, y - 1);
-                if (dir === "S") y = Math.min(ROWS - 1, y + 1);
-                if (dir === "E") x = Math.min(COLS - 1, x + 1);
-                if (dir === "W") x = Math.max(0, x - 1);
+            const maxY = level.rows - 1;
+            const maxX = level.cols - 1;
 
-                return { x, y, dir };
-            });
-        };
+            if (dir === "N") y = Math.max(0, y - 1);
+            if (dir === "S") y = Math.min(maxY, y + 1);
+            if (dir === "E") x = Math.min(maxX, x + 1);
+            if (dir === "W") x = Math.max(0, x - 1);
+
+            return { x, y, dir };
+        });
+    };
+
 
 
     const turn = () => {
