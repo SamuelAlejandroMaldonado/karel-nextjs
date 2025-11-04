@@ -81,7 +81,7 @@ export default function Home() {
             .map(line => line.trim().replace("()", ""))
             .filter(Boolean);
 
-        let levelCompleted = false; // 🔹 flag para evitar alert duplicado
+        let levelCompleted = false;
 
         for (const cmd of lines) {
             if (!commands[cmd]) {
@@ -97,6 +97,7 @@ export default function Home() {
 
 
             setBoard(prevBoard => {
+                console.log(prevBoard);
                 if (!levelCompleted) {
                     const completed = level.goal.checkGoal(robot, prevBoard);
                     if (completed) {

@@ -34,18 +34,16 @@ export const levels: Level[] = [
     },
     {
         id: 2,
-        name: "Recoge los beepers",
+        name: "Llena la fila superior",
         rows: 5,
         cols: 5,
-        robot: { x: 2, y: 4, dir: "N" },
-        beepers: [
-            { x: 1, y: 1 },
-            { x: 3, y: 0 },
-        ],
+        robot: { x: 0, y: 4, dir: "N" },
+        beepers: [],
         goal: {
-            description: "Todos los beepers deben desaparecer del tablero.",
+            description:
+                "Coloca un beeper en cada celda de la fila superior (y = 0).",
             checkGoal: (_, board) =>
-                board.every(row => row.every(cell => !cell.beeper)),
+                board[0].every(cell => cell.beeper === true),
         },
-    },
+    }
 ];
