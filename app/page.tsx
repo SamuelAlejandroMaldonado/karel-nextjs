@@ -5,8 +5,6 @@ import Controls from "./components/Controls";
 import { turnLeft, Direction } from "./utils/directions";
 import { levels } from "./utils/levels";
 
-const ROWS = 5;
-const COLS = 5;
 const DELAY = 500;
 
 export default function Home() {
@@ -31,31 +29,26 @@ export default function Home() {
         )
     );
 
+    //  Desafío del taller:
+    // Completa las funciones move, turn y putBeeper
+    // para que el robot logre cumplir los objetivos de cada nivel.
 
     const [program, setProgram] = useState("");
 
 
     const move = () => {
         setRobot(prev => {
-            let { x, y } = prev;
-            const { dir } = prev;
+            // TODO: mover el robot una celda en la dirección actual (N, S, E, W)
 
-            const maxY = level.rows - 1;
-            const maxX = level.cols - 1;
-
-            if (dir === "N") y = Math.max(0, y - 1);
-            if (dir === "S") y = Math.min(maxY, y + 1);
-            if (dir === "E") x = Math.min(maxX, x + 1);
-            if (dir === "W") x = Math.max(0, x - 1);
-
-            return { x, y, dir };
+            return prev;
         });
     };
 
 
 
     const turn = () => {
-        setRobot(prev => ({ ...prev, dir: turnLeft(prev.dir) }));
+        // TODO: girar el robot 90° hacia la izquierda
+
     };
 
 
@@ -63,7 +56,8 @@ export default function Home() {
         setBoard(prevBoard => {
             const newBoard = prevBoard.map(row => row.map(cell => ({ ...cell })));
             setRobot(prevRobot => {
-                newBoard[prevRobot.y][prevRobot.x].beeper = true;
+                // TODO: colocar un beeper en la posición actual del robot
+
                 return prevRobot;
             });
             return newBoard;
@@ -101,14 +95,10 @@ export default function Home() {
 
 
             setBoard(prevBoard => {
+                console.log(levelCompleted);
                 console.log(prevBoard);
-                if (!levelCompleted) {
-                    const completed = level.goal.checkGoal(robot, prevBoard);
-                    if (completed) {
-                        levelCompleted = true;
-                        alert(`🎉 ¡Nivel completado! (${level.name})`);
-                    }
-                }
+                // TODO: si el objetivo del nivel se cumple, muestra un alert
+
                 return prevBoard;
             });
 
@@ -169,6 +159,24 @@ export default function Home() {
                     className="mt-2 bg-purple-500 text-white px-4 py-2 rounded"
                 >
                     Ejecutar Programa
+                </button>
+
+                <button
+                    onClick={() => {
+                        const lvl = levels[levelIndex];
+                        setRobot(lvl.robot);
+                        setBoard(
+                            Array.from({ length: lvl.rows }, (_, y) =>
+                                Array.from({ length: lvl.cols }, (_, x) => ({
+                                    beeper: lvl.beepers.some(b => b.x === x && b.y === y),
+                                }))
+                            )
+                        );
+                        setProgram("");
+                    }}
+                    className="bg-gray-400 text-white px-4 py-2 rounded"
+                >
+                    Reiniciar Nivel
                 </button>
             </div>
 
